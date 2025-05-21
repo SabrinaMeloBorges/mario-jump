@@ -7,15 +7,28 @@
     <link rel="stylesheet" href="./css/style.css">
     <script src="./js/script.js" defer></script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+
     <title>Mario Jump</title>
 </head>
 <body>
+
+    
+
     <div id="score">Score: 0</div>
 
     <div class="game-board">
         <img src="./images/clouds.png" class="clouds">
         <img src="./images/mario.gif" class="mario">
         <img src="./images/pipe.png" class="pipe">
+
+        <audio id="backgroundMusic" loop>
+        <source src="./audios/Super Mario-theme.mp3" type="audio/mpeg">
+        </audio>
+        <button id="playPauseBtn" aria-label="Play/Pause music">
+            <i id="playPauseIcon" class="fa-solid fa-play"></i>
+        </button>
     </div>
 
     <div id="game-over-screen" style="display:none">

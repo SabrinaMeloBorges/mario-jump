@@ -14,6 +14,27 @@
     background: linear-gradient(#87ceeb, #e0f6ff);
 }
 
+#playPauseBtn {
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+  padding: 10px 15px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  outline: none;
+  color: #ee1c25;
+}
+
+#playPauseBtn:hover {
+
+  transform: scale(1.1);
+}
+
+#playPauseIcon {
+  display: inline-block;
+}
+
 #score {
     position: absolute;
     top: 10px;

@@ -4,10 +4,66 @@ const scoreElement = document.getElementById('score');
 const gameOverScreen = document.getElementById('game-over-screen');
 const finalScore = document.getElementById('final-score');
 
+const audio = document.getElementById('backgroundMusic');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const playPauseIcon = document.getElementById('playPauseIcon');
+
 let loop;
 let scoreInterval;
 let score = 0;
 let isGameOver = false;
+let isPlaying = false;
+
+
+function updateIcon() {
+  if (isPlaying) {
+    playPauseIcon.classList.remove('fa-play');
+    playPauseIcon.classList.add('fa-pause');
+  } else {
+    playPauseIcon.classList.remove('fa-pause');
+    playPauseIcon.classList.add('fa-play');
+  }
+}
+
+
+function playMusic() {
+  audio.play().then(() => {
+    isPlaying = true;
+    updateIcon();  
+  }).catch(err => {
+    console.error('Erro ao tentar tocar a música:', err);
+  });
+}
+
+function pauseMusic() {
+  audio.pause();
+  isPlaying = false;
+  updateIcon();  
+}
+
+// Tocar música automaticamente após a primeira interação
+document.addEventListener('click', function autoPlayOnce() {
+  if (!isPlaying) {
+    playMusic();
+  }
+  document.removeEventListener('click', autoPlayOnce);
+});
+
+document.addEventListener('keydown', function autoPlayOnce() {
+  if (!isPlaying) {
+    playMusic();
+  }
+  document.removeEventListener('keydown', autoPlayOnce);
+});
+
+// Controle do botão
+playPauseBtn.addEventListener('click', function() {
+  if (isPlaying) {
+    pauseMusic();
+  } else {
+    playMusic();
+  }
+});
 
 const jump = () => {
    mario.classList.add('jump');
