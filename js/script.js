@@ -59,6 +59,17 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
+// Adicionando suporte ao toque na tela
+document.addEventListener('touchstart', function(event) {
+  event.preventDefault(); // previne scroll, zoom, etc
+
+  if (isGameOver) {
+    restartGame();
+  } else {
+    jump();
+  }
+});
+
 function gameOver() {
   isGameOver = true;
   clearInterval(scoreInterval);
