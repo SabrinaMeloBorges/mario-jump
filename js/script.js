@@ -8,12 +8,52 @@ const audio = document.getElementById('backgroundMusic');
 const playPauseBtn = document.getElementById('playPauseBtn');
 const playPauseIcon = document.getElementById('playPauseIcon');
 
+const startScreen = document.getElementById('start-screen');
+const startBtn = document.getElementById('start-btn');
+const personalBestElement = document.getElementById('personal-best');
+
+let personalBest = localStorage.getItem('marioBest') || 0;
+personalBestElement.textContent = 'Best Score: ' + personalBest;
+
+function hideStartScreen() {
+  startScreen.style.display = 'none';
+  pipe.style.display = 'block';  
+
+  setTimeout(() => {
+    startLoop();
+    startScore();
+  }, 50);
+}
+
+function updatePipeSpeed(score) {
+  const maxDuration = 1.5; 
+  const minDuration = 0.5; 
+
+  let newDuration = maxDuration - score / 1000;
+
+  if (newDuration < minDuration) {
+    newDuration = minDuration;
+  }
+
+  pipe.style.animationDuration = `${newDuration}s`;
+}
+
+
+startBtn.addEventListener('click', hideStartScreen);
+
+document.addEventListener('keydown', function(event){
+  if (startScreen.style.display !== 'none') {
+    if (event.code == 'Space' || event.code == 'ArrowUp') {
+      hideStartScreen();
+    }
+  }
+});
+
 let loop;
 let scoreInterval;
 let score = 0;
 let isGameOver = false;
 let isPlaying = false;
-
 
 function updateIcon() {
   if (isPlaying) {
@@ -24,7 +64,6 @@ function updateIcon() {
     playPauseIcon.classList.add('fa-play');
   }
 }
-
 
 function playMusic() {
   audio.play().then(() => {
@@ -41,7 +80,6 @@ function pauseMusic() {
   updateIcon();  
 }
 
-// Tocar música automaticamente após a primeira interação
 document.addEventListener('click', function autoPlayOnce() {
   if (!isPlaying) {
     playMusic();
@@ -56,7 +94,6 @@ document.addEventListener('keydown', function autoPlayOnce() {
   document.removeEventListener('keydown', autoPlayOnce);
 });
 
-// Controle do botão
 playPauseBtn.addEventListener('click', function() {
   if (isPlaying) {
     pauseMusic();
@@ -101,13 +138,17 @@ function startScore() {
     if (!isGameOver) {
       score++;
       scoreElement.textContent = 'Score: ' + score;
+
+      updatePipeSpeed(score);
     }
   }, 100);
 }
 
+// Evento para pular e reiniciar
 document.addEventListener('keydown', function(event) {
   if (event.code === 'Space' || event.code === 'ArrowUp') {
     if (isGameOver) {
+      console.log('Restart triggered');
       restartGame();
     } else {
       jump();
@@ -115,9 +156,8 @@ document.addEventListener('keydown', function(event) {
   }
 });
 
-// Adicionando suporte ao toque na tela
 document.addEventListener('touchstart', function(event) {
-  event.preventDefault(); // previne scroll, zoom, etc
+  event.preventDefault(); 
 
   if (isGameOver) {
     restartGame();
@@ -130,7 +170,13 @@ function gameOver() {
   isGameOver = true;
   clearInterval(scoreInterval);
 
+  if (score > personalBest) {
+    personalBest = score;
+    localStorage.setItem('marioBest', personalBest);
+  }
+
   finalScore.textContent = 'Final Score: ' + score;
+
   gameOverScreen.style.display = 'block';
 }
 
@@ -148,12 +194,10 @@ function restartGame() {
    pipe.style.animation = 'pipe-animation 1.5s infinite linear';
    pipe.style.left = '';
 
+   updatePipeSpeed(score);
+
    gameOverScreen.style.display = 'none';
 
    startLoop();
    startScore();
 }
-
-// Inicializa o jogo
-startLoop();
-startScore();

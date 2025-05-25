@@ -14,6 +14,55 @@
     background: linear-gradient(#87ceeb, #e0f6ff);
 }
 
+.retro-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Move para o centro */
+  
+  width: 50%;
+  height: 50%;
+  background: #2d653aae; /* céu azul claro */
+  color: #fff;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  font-family: 'Press Start 2P', cursive; /* fonte retro */
+  text-align: center;
+  z-index: 10;
+
+  border: 4px solid #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+
+.retro-screen h1 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  text-shadow: 3px 3px #333;
+}
+
+.retro-screen button {
+  background: #ff0000;
+  color: white;
+  font-family: inherit;
+  border: 3px solid #fff;
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 4px 4px #333;
+  transition: transform 0.2s;
+}
+
+.retro-screen button:hover {
+  transform: scale(1.1);
+}
+
+
 #playPauseBtn {
   background-color: transparent;
   border: none;
@@ -74,6 +123,7 @@
 }
 
 .pipe {
+    display: none;
     position: absolute;
     bottom: 0;
     width: 70px;
